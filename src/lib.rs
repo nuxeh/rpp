@@ -1,6 +1,7 @@
 use std::process::Command;
 use std::time::{Duration, Instant};
 use failure::{Error, bail};
+use std::fs;
 
 #[derive(Default)]
 pub struct Rpp {
@@ -43,7 +44,15 @@ impl Rpp {
 
             if let Ok(mut child) = c.spawn() {
                 let pid = child.id();
-                child.wait().expect("command wasn't running");
+                eprintln!("{}", pid);
+                loop {
+                    eprintln!("{:?}", get_peak_vm(pid));
+                    match child.try_wait() {
+                        Ok(Some(_)) => break,
+                        Err(e) => bail!(e),
+                        _ => (),
+                    }
+                }
             } else {
                 bail!("error spawning child process");
             }
@@ -87,4 +96,22 @@ mod tests {
     fn it_works() {
         assert_eq!(2 + 2, 4);
     }
+}
+
+fn get_peak_vm(pid: u32) -> Option<u32> {
+    fs::read_to_string(format!("/proc/{}/status", pid))
+        .ok()
+        .map(|s| {
+            s.lines()
+                .filter(|l| l.contains("VmPeak"))
+                .take(1)
+                .collect::<String>()
+                .rsplit(" ")
+                .skip(1)
+                .take(1)
+                .collect::<String>()
+                .parse()
+                .ok()
+        })
+    .flatten()
 }
