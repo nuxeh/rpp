@@ -19,8 +19,13 @@ struct Opt {
     #[structopt(short, long)]
     computer: bool,
 
-    #[structopt(required = true, min_values = 1)]
+    /// Command to spawn
+    //#[structopt(required_unless = "raw_command")]
     command: Vec<String>,
+
+    /// Raw command which may contain its own argument flags
+    #[structopt(conflicts_with = "command", required_unless = "command", raw = true)]
+    raw_command: Vec<String>,
 }
 
 fn main() {
@@ -30,11 +35,16 @@ fn main() {
         .time(opt.time)
         .peak_vm(opt.peak_vm);
 
-    if let Some(c) = opt.command.get(0) {
+
+    let commands = opt.command.iter()
+        .chain(opt.raw_command.iter())
+        .collect::<Vec<&String>>();
+
+    if let Some(c) = commands.get(0) {
         rpp.add_command(c);
     }
 
-    opt.command
+    commands
         .iter()
         .skip(1)
         .for_each(|arg| rpp.add_arg(arg));
