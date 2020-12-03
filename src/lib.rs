@@ -48,8 +48,7 @@ impl Rpp {
                 println!("ls command didn't start");
             }
 
-            let nanos = start.elapsed().as_nanos();
-            self.results.nanos = Some(nanos);
+            self.results.duration = Some(start.elapsed());
         } else {
             bail!("command hasn't been initialised");
         }
@@ -65,7 +64,7 @@ impl Rpp {
 #[derive(Default)]
 pub struct Results {
     peak_vm: Option<usize>,
-    nanos: Option<u128>,
+    duration: Option<Duration>,
 }
 
 impl Results {
@@ -73,8 +72,12 @@ impl Results {
         self.peak_vm
     }
 
+    pub fn get_duration(&self) -> Option<Duration> {
+        self.duration
+    }
+
     pub fn get_nanos(&self) -> Option<u128> {
-        self.nanos
+        self.duration.map(|d| d.as_nanos())
     }
 }
 
