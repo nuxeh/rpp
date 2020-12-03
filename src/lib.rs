@@ -1,4 +1,5 @@
 use std::process::Command;
+use failure::Error;
 
 #[derive(Default)]
 pub struct Rpp {
@@ -23,6 +24,10 @@ impl Rpp {
 
     pub fn init(mut self) -> Self {
         self
+    }
+
+    pub fn run(&self) -> Result<(), Error> {
+        Ok(())
     }
 }
 
