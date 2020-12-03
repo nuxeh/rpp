@@ -31,13 +31,13 @@ fn main() {
         .peak_vm(opt.peak_vm);
 
     if let Some(c) = opt.command.get(0) {
-        rpp.command(c);
+        rpp.add_command(c);
     }
 
     opt.command
         .iter()
         .skip(1)
-        .for_each(|arg| { rpp.arg(arg); });
+        .for_each(|arg| rpp.add_arg(arg));
 
     match rpp.run() {
         Ok(_) => display_results(&opt, rpp.get_results()),
