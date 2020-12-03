@@ -38,14 +38,17 @@ impl Rpp {
     }
 
     pub fn run(&mut self) -> Result<(), Error> {
-        if self.command.is_none() {
+        if let Some(ref mut c) = self.command {
+            let start = Instant::now();
+
+            c.output()?;
+
+            let nanos = start.elapsed().as_nanos();
+            self.results.nanos = Some(nanos);
+        } else {
             bail!("command hasn't been initialised");
         }
 
-        let start = Instant::now();
-
-        let nanos = start.elapsed().as_nanos();
-        self.results.nanos = Some(nanos);
         Ok(())
     }
 }
