@@ -25,16 +25,14 @@ impl Rpp {
         self
     }
 
-    pub fn command(mut self, command: &str) -> Self {
+    pub fn command(&mut self, command: &str) {
         self.command = Some(Command::new(command));
-        self
     }
 
-    pub fn arg(mut self, arg: &str) -> Self {
+    pub fn arg(&mut self, arg: &str) {
         if let Some(ref mut c) = self.command {
             c.arg(arg);
         }
-        self
     }
 
     pub fn run(&mut self) -> Result<(), Error> {
