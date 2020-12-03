@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 use structopt::StructOpt;
-use rpp::Rpp;
+use rpp::{Rpp, Results};
 
 /// Simple profiler for processes on Linux
 #[derive(StructOpt, Debug)]
@@ -40,7 +40,17 @@ fn main() {
         .for_each(|arg| { rpp.arg(arg); });
 
     match rpp.run() {
-        Ok(_) => (),
+        Ok(_) => display_results(rpp.get_results()),
         Err(e) => eprintln!("{}", e),
     };
+}
+
+fn display_results(results: &Results) {
+    if let Some(pm) = results.get_peak_vm() {
+        println!("peak virtual memory: {}", pm);
+    }
+
+    if let Some(nanos) = results.get_nanos() {
+        println!("time: {}", nanos);
+    }
 }

@@ -41,7 +41,12 @@ impl Rpp {
         if let Some(ref mut c) = self.command {
             let start = Instant::now();
 
-            c.output()?;
+            if let Ok(mut child) = c.spawn() {
+                child.wait().expect("command wasn't running");
+                println!("Child has finished its execution!");
+            } else {
+                println!("ls command didn't start");
+            }
 
             let nanos = start.elapsed().as_nanos();
             self.results.nanos = Some(nanos);
@@ -50,6 +55,10 @@ impl Rpp {
         }
 
         Ok(())
+    }
+
+    pub fn get_results(&self) -> &Results {
+        &self.results
     }
 }
 
@@ -60,11 +69,11 @@ pub struct Results {
 }
 
 impl Results {
-    fn get_peak_vm(&self) -> Option<usize> {
+    pub fn get_peak_vm(&self) -> Option<usize> {
         self.peak_vm
     }
 
-    fn get_nanos(&self) -> Option<u128> {
+    pub fn get_nanos(&self) -> Option<u128> {
         self.nanos
     }
 }
