@@ -6,11 +6,13 @@ use rpp::Rpp;
 #[derive(StructOpt, Debug)]
 #[structopt(name = "rpp")]
 struct Opt {
+    /// Execution time
     #[structopt(short, long)]
     time: bool,
 
-    #[structopt(short, long)]
-    memory: bool,
+    /// Peak memory usage
+    #[structopt(short = "m", long)]
+    peak_vm: bool,
 
     /// Print non-human readable values
     #[structopt(short, long)]
@@ -26,6 +28,6 @@ fn main() {
 
     let rpp = Rpp::new()
         .time(opt.time)
-        .memory(opt.memory)
+        .peak_mem(opt.peak_vm)
         .init();
 }
