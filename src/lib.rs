@@ -44,10 +44,10 @@ impl Rpp {
 
             if let Ok(mut child) = c.spawn() {
                 let pid = child.id();
-                eprintln!("spawned PID {}", pid);
+                eprintln!("spawned PID {}\n----", pid);
                 loop {
                     if let Some(peak_vm) = get_peak_vm(pid) {
-                        self.results.peak_vm = Some(peak_vm);
+                        self.results.peak_vm_kb = Some(peak_vm);
                     }
                     match child.try_wait() {
                         Ok(Some(_)) => break,
@@ -74,13 +74,13 @@ impl Rpp {
 
 #[derive(Default)]
 pub struct Results {
-    peak_vm: Option<u32>,
+    peak_vm_kb: Option<u32>,
     duration: Option<Duration>,
 }
 
 impl Results {
     pub fn get_peak_vm(&self) -> Option<u32> {
-        self.peak_vm
+        self.peak_vm_kb
     }
 
     pub fn get_duration(&self) -> Option<Duration> {
