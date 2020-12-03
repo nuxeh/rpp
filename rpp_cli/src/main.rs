@@ -37,5 +37,10 @@ fn main() {
     opt.command
         .iter()
         .skip(1)
-        .for_each(|arg| rpp.arg(arg));
+        .for_each(|arg| { rpp.arg(arg); });
+
+    match rpp.run() {
+        Ok(_) => (),
+        Err(e) => eprintln!("{}", e),
+    };
 }
