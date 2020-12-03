@@ -28,6 +28,6 @@ fn main() {
 
     let rpp = Rpp::new()
         .time(opt.time)
-        .peak_mem(opt.peak_vm)
+        .peak_vm(opt.peak_vm)
         .init();
 }

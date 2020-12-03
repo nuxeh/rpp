@@ -5,7 +5,7 @@ use failure::{Error, bail};
 #[derive(Default)]
 pub struct Rpp {
     time: bool,
-    peak_mem: bool,
+    peak_vm: bool,
     command: Option<String>,
     results: Results,
 }
@@ -20,8 +20,8 @@ impl Rpp {
         self
     }
 
-    pub fn peak_mem(mut self, enabled: bool) -> Self {
-        self.peak_mem = enabled;
+    pub fn peak_vm(mut self, enabled: bool) -> Self {
+        self.peak_vm = enabled;
         self
     }
 
@@ -49,13 +49,13 @@ impl Rpp {
 
 #[derive(Default)]
 pub struct Results {
-    peak_mem: Option<usize>,
+    peak_vm: Option<usize>,
     nanos: Option<u128>,
 }
 
 impl Results {
-    fn get_peak_mem(&self) -> Option<usize> {
-        self.peak_mem
+    fn get_peak_vm(&self) -> Option<usize> {
+        self.peak_vm
     }
 
     fn get_nanos(&self) -> Option<u128> {
