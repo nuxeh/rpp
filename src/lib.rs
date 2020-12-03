@@ -43,9 +43,8 @@ impl Rpp {
 
             if let Ok(mut child) = c.spawn() {
                 child.wait().expect("command wasn't running");
-                println!("Child has finished its execution!");
             } else {
-                println!("ls command didn't start");
+                bail!("error spawning child process");
             }
 
             self.results.duration = Some(start.elapsed());
