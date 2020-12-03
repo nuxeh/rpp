@@ -25,7 +25,6 @@ struct Opt {
 
 fn main() {
     let opt = Opt::from_args();
-    println!("{:#?}", opt);
 
     let mut rpp = Rpp::new()
         .time(opt.time)
@@ -47,13 +46,15 @@ fn main() {
 }
 
 fn display_results(opt: &Opt, results: &Results) {
+    eprintln!("----");
+
     if let Some(pm) = results.get_peak_vm() {
-        println!("peak virtual memory: {}", pm);
+        eprintln!("peak virtual memory: {}", pm);
     }
 
     match (opt.computer, results.get_duration(), results.get_nanos()) {
-        (true, _, Some(n)) => println!("time: {}", n),
-        (false, Some(d), _) => println!("time: {}", format_duration(d)),
+        (true, _, Some(n)) => eprintln!("time: {}", n),
+        (false, Some(d), _) => eprintln!("time: {}", format_duration(d)),
         _ => (),
     }
 }
