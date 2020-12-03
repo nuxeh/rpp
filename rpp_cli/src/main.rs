@@ -3,7 +3,7 @@ use structopt::StructOpt;
 
 /// Simple profiler for processes
 #[derive(StructOpt, Debug)]
-#[structopt(name = "rp")]
+#[structopt(name = "rpp")]
 struct Opt {
     #[structopt(short, long)]
     time: bool,
