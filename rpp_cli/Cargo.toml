@@ -1,10 +1,14 @@
 [package]
-name = "rp"
+name = "rpp_cli"
 version = "0.1.0"
 authors = ["Ed Cragg <ed.cragg@eipi.xyz>"]
 edition = "2018"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[[bin]]
+name = "rpp"
+path = "src/main.rs"
 
 [dependencies]
 structopt = "0.3.21"
+humansize = "1.1.0"
+humantime = "2.0.1"
