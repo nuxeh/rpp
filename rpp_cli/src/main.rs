@@ -30,7 +30,7 @@ fn main() {
         .time(opt.time)
         .peak_vm(opt.peak_vm);
 
-    if let Some(c) = opt.command.get(1) {
+    if let Some(c) = opt.command.get(0) {
         rpp.command(c);
     }
 
