@@ -1,4 +1,3 @@
-use std::path::PathBuf;
 use structopt::StructOpt;
 use rpp::{Rpp, Results};
 use humantime::format_duration;
@@ -49,8 +48,10 @@ fn main() {
 fn display_results(opt: &Opt, results: &Results) {
     eprintln!("----");
 
-    if let Some(pm) = results.get_peak_vm() {
-        eprintln!("peak virtual memory: {}", (pm*1024).file_size(file_size_opts::CONVENTIONAL).unwrap());
+    match (opt.computer, results.get_peak_vm()) {
+        (true, Some(pm)) => eprintln!("peak memory: {}", pm * 1024),
+        (false, Some(pm)) => eprintln!("peak memory: {}", (pm * 1024).file_size(file_size_opts::CONVENTIONAL).unwrap()),
+        _ => (),
     }
 
     match (opt.computer, results.get_duration(), results.get_nanos()) {
