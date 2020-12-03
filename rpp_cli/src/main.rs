@@ -26,8 +26,16 @@ fn main() {
     let opt = Opt::from_args();
     println!("{:#?}", opt);
 
-    let rpp = Rpp::new()
+    let mut rpp = Rpp::new()
         .time(opt.time)
-        .peak_vm(opt.peak_vm)
-        .init();
+        .peak_vm(opt.peak_vm);
+
+    if let Some(c) = opt.command.get(1) {
+        rpp.command(c);
+    }
+
+    opt.command
+        .iter()
+        .skip(1)
+        .for_each(|arg| rpp.arg(arg));
 }

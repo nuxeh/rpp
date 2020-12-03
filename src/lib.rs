@@ -6,7 +6,7 @@ use failure::{Error, bail};
 pub struct Rpp {
     time: bool,
     peak_vm: bool,
-    command: Option<String>,
+    command: Option<Command>,
     results: Results,
 }
 
@@ -26,17 +26,20 @@ impl Rpp {
     }
 
     pub fn command(mut self, command: &str) -> Self {
-        self.command = Some(command.to_owned());
+        self.command = Some(Command::new(command));
         self
     }
 
-    pub fn init(mut self) -> Self {
+    pub fn arg(mut self, arg: &str) -> Self {
+        if let Some(ref mut c) = self.command {
+            c.arg(arg);
+        }
         self
     }
 
     pub fn run(&mut self) -> Result<(), Error> {
         if self.command.is_none() {
-            bail!("Command hasn't been set");
+            bail!("command hasn't been initialised");
         }
 
         let start = Instant::now();
