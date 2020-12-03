@@ -42,6 +42,7 @@ impl Rpp {
             let start = Instant::now();
 
             if let Ok(mut child) = c.spawn() {
+                let pid = child.id();
                 child.wait().expect("command wasn't running");
             } else {
                 bail!("error spawning child process");
