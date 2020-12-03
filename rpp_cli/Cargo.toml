@@ -9,6 +9,7 @@ name = "rpp"
 path = "src/main.rs"
 
 [dependencies]
+rpp = { version = "0.1.0", path = ".." }
 structopt = "0.3.21"
 humansize = "1.1.0"
 humantime = "2.0.1"

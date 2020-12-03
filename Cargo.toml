@@ -1,5 +1,5 @@
 [package]
-name = "rp"
+name = "rpp"
 version = "0.1.0"
 authors = ["Ed Cragg <ed.cragg@eipi.xyz>"]
 edition = "2018"
