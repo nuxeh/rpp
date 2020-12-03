@@ -1,5 +1,6 @@
 use std::path::PathBuf;
 use structopt::StructOpt;
+use rpp::Rpp;
 
 /// Simple profiler for processes on Linux
 #[derive(StructOpt, Debug)]
@@ -23,5 +24,8 @@ fn main() {
     let opt = Opt::from_args();
     println!("{:#?}", opt);
 
-
+    let rpp = Rpp::new()
+        .time(opt.time)
+        .memory(opt.memory)
+        .init();
 }
