@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 use structopt::StructOpt;
 
-/// Simple profiler for processes
+/// Simple profiler for processes on Linux
 #[derive(StructOpt, Debug)]
 #[structopt(name = "rpp")]
 struct Opt {
@@ -10,6 +10,10 @@ struct Opt {
 
     #[structopt(short, long)]
     memory: bool,
+
+    /// Print non-human readable values
+    #[structopt(short = "n", long)]
+    computer: bool,
 
     #[structopt(short, long, parse(from_os_str))]
     command: PathBuf,
