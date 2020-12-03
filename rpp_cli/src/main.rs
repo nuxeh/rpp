@@ -13,11 +13,11 @@ struct Opt {
     memory: bool,
 
     /// Print non-human readable values
-    #[structopt(short = "n", long)]
+    #[structopt(short, long)]
     computer: bool,
 
-    #[structopt(short, long, parse(from_os_str))]
-    command: PathBuf,
+    #[structopt(required = true, min_values = 1)]
+    command: Vec<String>,
 }
 
 fn main() {
